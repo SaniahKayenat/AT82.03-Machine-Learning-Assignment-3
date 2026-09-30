@@ -1,0 +1,20 @@
+# Local development / CI. The deploy-time file is docker-compose_forDeploy.yaml.
+services:
+  dash:
+    build:
+      # the repo root, so logistic_regression.py is inside the build context
+      context: ..
+      dockerfile: app/.Dockerfile
+    image: ${IMAGE_NAME:-psyduckait/car-price-predictor}:${TAG:-latest}
+    container_name: car-price-predictor
+    ports:
+      - "8050:8050"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8050
+      # A3: the MLflow server address is injected, never baked into the image.
+      # If MLFLOW_TRACKING_URI is unset the app uses the model copy inside the image.
+      - MLFLOW_TRACKING_URI=${MLFLOW_TRACKING_URI:-}
+      - APP_MODEL_NAME=${APP_MODEL_NAME:-st126956-a3-model}
+      - APP_MODEL_STAGE=${APP_MODEL_STAGE:-Staging}
+    restart: unless-stopped

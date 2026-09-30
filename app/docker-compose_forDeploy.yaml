@@ -1,0 +1,43 @@
+# Deployment on ml-brain. This is the file that lives at ~/st126956/docker-compose.yaml
+# on the server; the GitHub Actions deploy job runs `docker compose pull && up -d` on it.
+#
+#   traefik network : `web`          (not `traefik_default`)
+#   cert resolver   : `letsencrypt`  (not `production`)
+services:
+  web:
+    image: psyduckait/car-price-predictor:${TAG:-latest}
+    container_name: web-st126956
+    platform: linux/x86_64
+    environment:
+      - HOST=0.0.0.0
+      - PORT=80          # Dash reads these; Traefik reaches the app on port 80
+      # set these on the server (in ~/st126956/.env) to serve the model from MLflow;
+      # leave them empty and the app uses the copy inside the image
+      - MLFLOW_TRACKING_URI=${MLFLOW_TRACKING_URI:-}
+      - APP_MODEL_NAME=${APP_MODEL_NAME:-st126956-a3-model}
+      - APP_MODEL_STAGE=${APP_MODEL_STAGE:-Staging}
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      # which of my two networks Traefik should use to reach me
+      - traefik.docker.network=web
+      # the port my app listens on inside the container
+      - traefik.http.services.web-st126956.loadbalancer.server.port=80
+
+      # HTTPS router
+      - traefik.http.routers.web-st126956.rule=Host(`web-st126956.ml.brain.cs.ait.ac.th`)
+      - traefik.http.routers.web-st126956.entrypoints=websecure
+      - traefik.http.routers.web-st126956.tls=true
+      - traefik.http.routers.web-st126956.tls.certresolver=letsencrypt
+
+      # plain HTTP router, so the site also works on http://
+      - traefik.http.routers.web-st126956-http.rule=Host(`web-st126956.ml.brain.cs.ait.ac.th`)
+      - traefik.http.routers.web-st126956-http.entrypoints=web
+    networks:
+      - default
+      - web
+
+networks:
+  default:
+  web:
+    external: true

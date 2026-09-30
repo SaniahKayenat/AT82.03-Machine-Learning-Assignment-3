@@ -1,0 +1,37 @@
+artifact_path: file:d:/AIT Aug26/ML/Coding Assignment/Assignment 3/mlruns/1/models/m-3b807db4d37e454599ced2faff75f715/artifacts
+flavors:
+  python_function:
+    cloudpickle_version: 3.1.2
+    code: code
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.pyfunc.model
+    python_model: python_model.pkl
+    python_version: 3.13.15
+    streamable: false
+is_signature_from_type_hint: false
+mlflow_version: 3.16.0
+model_id: m-3b807db4d37e454599ced2faff75f715
+model_size_bytes: 60226
+model_uuid: m-3b807db4d37e454599ced2faff75f715
+prompts: null
+run_id: e3bb991867b841398d55b13352e86b31
+saved_input_example_info:
+  artifact_path: input_example.json
+  pandas_orient: split
+  serving_input_path: serving_input_example.json
+  type: dataframe
+signature:
+  inputs: '[{"type": "string", "name": "brand", "required": false}, {"type": "double",
+    "name": "year", "required": false}, {"type": "double", "name": "km_driven", "required":
+    false}, {"type": "string", "name": "fuel", "required": false}, {"type": "string",
+    "name": "seller_type", "required": false}, {"type": "string", "name": "transmission",
+    "required": false}, {"type": "double", "name": "owner", "required": false}, {"type":
+    "double", "name": "mileage", "required": false}, {"type": "double", "name": "engine",
+    "required": false}, {"type": "double", "name": "max_power", "required": false},
+    {"type": "double", "name": "seats", "required": false}]'
+  outputs: '[{"type": "long", "required": true}]'
+  params: null
+type_hint_from_example: false
+utc_time_created: '2026-09-28 12:23:57.418323'
