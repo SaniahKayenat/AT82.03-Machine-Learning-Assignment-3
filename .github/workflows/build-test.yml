@@ -86,10 +86,10 @@ jobs:
         with:
           host: ${{ vars.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }} # key still authenticates to ml-brain
+          key: ${{ secrets.KEY }}
           proxy_host: ${{ vars.PROXY_HOST }}
           proxy_username: ${{ secrets.USERNAME }}
-          proxy_password: ${{ secrets.PROXY_PASSWORD }} # bazooka wants a password, not a key
+          proxy_key: ${{ secrets.KEY }}
           script: |
             cd ~/st126956
             docker compose pull
