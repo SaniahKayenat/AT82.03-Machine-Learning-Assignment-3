@@ -12,9 +12,9 @@ run-name: ${{ github.actor }} building, testing and deploying
 on:
   push:
     branches:
-      - '**'          # every branch: "once you push a commit, it will evoke the testing script"
+      - "**" # every branch: "once you push a commit, it will evoke the testing script"
   pull_request:
-  workflow_dispatch:  # lets me trigger a run by hand from the Actions tab
+  workflow_dispatch: # lets me trigger a run by hand from the Actions tab
 
 jobs:
   # ---------------------------------------------------------------- test + build
@@ -65,7 +65,7 @@ jobs:
         if: github.ref == 'refs/heads/main'
         uses: docker/build-push-action@v5
         with:
-          context: .                 # repo root: the image needs logistic_regression.py
+          context: . # repo root: the image needs logistic_regression.py
           file: app/.Dockerfile
           push: true
           # `latest` is what the server pulls; the sha tag makes each build identifiable
@@ -84,13 +84,12 @@ jobs:
       - name: Deploy to ml-brain over SSH
         uses: appleboy/ssh-action@v1.0.0
         with:
-          # ml-brain is not reachable directly, so the action hops through bazooka
           host: ${{ vars.HOST }}
           username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
+          key: ${{ secrets.KEY }} # key still authenticates to ml-brain
           proxy_host: ${{ vars.PROXY_HOST }}
           proxy_username: ${{ secrets.USERNAME }}
-          proxy_key: ${{ secrets.KEY }}
+          proxy_password: ${{ secrets.PROXY_PASSWORD }} # bazooka wants a password, not a key
           script: |
             cd ~/st126956
             docker compose pull
