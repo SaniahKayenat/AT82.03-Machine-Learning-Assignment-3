@@ -48,15 +48,14 @@ could then score 98.8 % accuracy while learning nothing, and most of the metrics
 The `LogisticRegression` class from `02 - Multinomial Logistic Regression.ipynb` was extended with the whole
 classification report, built from a single confusion matrix:
 
-| Added | What it returns |
-|---|---|
-| `confusion_matrix`, `support` | the (4, 4) matrix, and the true count per class |
-| `accuracy` | correct predictions / all predictions |
-| `precision`, `recall`, `f1_score` | one score per class |
-| `macro_precision`, `macro_recall`, `macro_f1` | plain average over the 4 classes |
-| `weighted_precision`, `weighted_recall`, `weighted_f1` | average weighted by support |
-| `classification_report` | the same table sklearn prints |
-
+| Added                                                  | What it returns                                 |
+| ------------------------------------------------------ | ----------------------------------------------- |
+| `confusion_matrix`, `support`                          | the (4, 4) matrix, and the true count per class |
+| `accuracy`                                             | correct predictions / all predictions           |
+| `precision`, `recall`, `f1_score`                      | one score per class                             |
+| `macro_precision`, `macro_recall`, `macro_f1`          | plain average over the 4 classes                |
+| `weighted_precision`, `weighted_recall`, `weighted_f1` | average weighted by support                     |
+| `classification_report`                                | the same table sklearn prints                   |
 
 **Results:** test accuracy **0.7254** against a 0.25 baseline. Classes 0 and 3 (cheapest and most expensive)
 reach f1 ≈ 0.84 and 0.81; the two middle classes only reach 0.61 and 0.63, because they have neighbours on both
@@ -133,9 +132,9 @@ GitHub never starts the deploy job, so a broken commit cannot reach the server.
 
 **The two required unit tests** are in `app/code/test_model.py`:
 
-* `test_model_takes_expected_input` — the model accepts the 11-column DataFrame the Dash callback builds, with
+- `test_model_takes_expected_input` — the model accepts the 11-column DataFrame the Dash callback builds, with
   the dtypes the signature requires.
-* `test_model_output_shape` — one input row gives exactly one prediction, *n* rows give *n*, and the values are
+- `test_model_output_shape` — one input row gives exactly one prediction, _n_ rows give _n_, and the values are
   class labels in 0–3.
 
 Five extra tests cover the blank-field cases, an unknown brand, and a sanity check that a recent premium car is
@@ -164,13 +163,13 @@ cd app/code && pytest test_model.py -v
 
 ## GitHub settings the workflow needs
 
-| Kind | Name | Value |
-|---|---|---|
-| Secret | `DOCKERHUB_USERNAME` | `psyduckait` |
-| Secret | `DOCKERHUB_TOKEN` | an access token from Docker Hub → Account Settings → Personal access tokens |
-| Secret | `USERNAME` | `st126956` |
-| Secret | `KEY` | the **private** SSH key that matches the public key submitted to the course |
-| Secret | `MLFLOW_TRACKING_URI` | `http://mlflow.ml.brain.cs.ait.ac.th/` (may be left empty while the server is down) |
-| Secret | `APP_MODEL_NAME` | `st126956-a3-model` |
-| Variable | `HOST` | `ml.brain.cs.ait.ac.th` |
-| Variable | `PROXY_HOST` | `bazooka.cs.ait.ac.th` |
+| Kind     | Name                  | Value                                                                               |
+| -------- | --------------------- | ----------------------------------------------------------------------------------- |
+| Secret   | `DOCKERHUB_USERNAME`  | `psyduckait`                                                                        |
+| Secret   | `DOCKERHUB_TOKEN`     | an access token from Docker Hub → Account Settings → Personal access tokens         |
+| Secret   | `USERNAME`            | `st126956`                                                                          |
+| Secret   | `KEY`                 | the **private** SSH key that matches the public key submitted to the course         |
+| Secret   | `MLFLOW_TRACKING_URI` | `http://mlflow.ml.brain.cs.ait.ac.th/` (may be left empty while the server is down) |
+| Secret   | `APP_MODEL_NAME`      | `st126956-a3-model`                                                                 |
+| Variable | `HOST`                | `ml.brain.cs.ait.ac.th`                                                             |
+| Variable | `PROXY_HOST`          | `bazooka.cs.ait.ac.th`                                                              |
